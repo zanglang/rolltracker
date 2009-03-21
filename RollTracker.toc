@@ -1,0 +1,10 @@
+## Interface: 30000
+## Title: RollTracker
+## Notes: Sort rolls.
+## Author: Zanglang
+## X-Credits: Coth, Morodan
+## X-Category: Miscellaneous
+## OptionalDeps:
+## X-Embeds:
+
+RollTracker.xml
