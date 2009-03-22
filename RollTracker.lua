@@ -1,3 +1,12 @@
+--[[
+	RollTracker v0.1 - by Jerry Chong. <zanglang@gmail.com>
+	Originally written by Coth of Gilneas and Morodan of Khadgar.
+	
+	v0.1
+	- Initial test release. The code is very loosely based on the old addon, most of the less-used features have been removed.
+	<10kb when all rolls emptied :)
+]]--
+
 local rollArray
 local rollNames
 
@@ -18,10 +27,8 @@ function RollTracker_OnLoad()
 	end
 end
 
--- Rolling function
+-- Event handler
 function RollTracker_CHAT_MSG_SYSTEM(msg)
-	local name, roll, low, high
-	
 	for name, roll, low, high in string.gmatch(arg1, "([^%s]+) rolls (%d+) %((%d+)%-(%d+)%)$") do
 		-- check for rerolls. >1 if rolled before
 		rollNames[name] = rollNames[name] and rollNames[name] + 1 or 1
@@ -32,13 +39,13 @@ function RollTracker_CHAT_MSG_SYSTEM(msg)
 			High = tonumber(high),
 			Count = rollNames[name]
 		})
+		-- popup window
 		RollTracker_ShowWindow()
 	end
 end
 
 -- Sort and format the list
 function RollTracker_UpdateList()
-	local i
 	local rollText = ""
 	
 	table.sort(rollArray, function (a, b)
@@ -67,12 +74,7 @@ function RollTracker_ClearRolls()
 	RollTracker_UpdateList()
 end
 
---	GUI Functions
 function RollTracker_ShowWindow()
 	RollTrackerFrame:Show()
 	RollTracker_UpdateList()
-end
-
-function RollTracker_HideWindow()
-	RollTrackerFrame:Hide()
 end

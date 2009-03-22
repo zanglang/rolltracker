@@ -1,9 +1,13 @@
 ## Interface: 30000
 ## Title: RollTracker
-## Notes: Sort rolls.
-## Author: Zanglang
+## Notes: Keeps tracks of /rolls.
+## Version: 1.0
+## Author: Jerry Chong
+## X-Email: zanglang@gmail.com
 ## X-Credits: Coth, Morodan
 ## X-Category: Miscellaneous
+## X-Feedback: http://www.wowace.com/projects/rolltracker/
+## DefaultState: enabled
 ## OptionalDeps:
 ## X-Embeds:
 
