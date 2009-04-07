@@ -2,12 +2,15 @@
 	RollTracker Lite v0.2 - by Jerry Chong. <zanglang@gmail.com>
 	Originally written by Coth of Gilneas and Morodan of Khadgar.
 	
-	0.2 - New project name
+	0.2 - New project name. Auto clear when closed
 	0.1 - Initial test release. The code is very loosely based on the old addon, most of the less-used features have been removed. <10kb when all rolls emptied :)
 ]]--
 
 local rollArray
 local rollNames
+
+-- hard-coded configs
+local ClearWhenClosed = true 
 
 function RollTracker_OnLoad()
 	rollArray = {}
@@ -76,4 +79,10 @@ end
 function RollTracker_ShowWindow()
 	RollTrackerFrame:Show()
 	RollTracker_UpdateList()
+end
+
+function RollTracker_HideWindow()
+	if ClearWhenClosed then
+		RollTracker_ClearRolls()
+	end
 end

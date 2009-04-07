@@ -60,6 +60,11 @@
 				<Anchors>
 					<Anchor point="TOPRIGHT" relativeTo="RollTrackerFrame" relativePoint="TOPRIGHT"/>
 				</Anchors>
+				<Scripts>
+					<OnClick>
+						RollTracker_HideWindow()
+					</OnClick>
+				</Scripts>
 			</Button>
 
 			<Button name="$parentClearButton" inherits="UIPanelButtonTemplate" text="Clear">
