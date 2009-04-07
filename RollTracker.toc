@@ -1,13 +1,15 @@
 ## Interface: 30000
-## Title: RollTracker
+## Title: RollTracker Lite
 ## Notes: Keeps tracks of /rolls.
-## Version: 1.0
+## Version: 0.2
 ## Author: Jerry Chong
 ## X-Email: zanglang@gmail.com
 ## X-Credits: Coth, Morodan
 ## X-Category: Miscellaneous
 ## X-Feedback: http://www.wowace.com/projects/rolltracker/
 ## DefaultState: enabled
+## LoadManagers: AddonLoader
+## X-LoadOn-Always: true
 ## OptionalDeps:
 ## X-Embeds:
 

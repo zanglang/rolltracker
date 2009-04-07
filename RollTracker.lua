@@ -1,10 +1,9 @@
 --[[
-	RollTracker v0.1 - by Jerry Chong. <zanglang@gmail.com>
+	RollTracker Lite v0.2 - by Jerry Chong. <zanglang@gmail.com>
 	Originally written by Coth of Gilneas and Morodan of Khadgar.
 	
-	v0.1
-	- Initial test release. The code is very loosely based on the old addon, most of the less-used features have been removed.
-	<10kb when all rolls emptied :)
+	0.2 - New project name
+	0.1 - Initial test release. The code is very loosely based on the old addon, most of the less-used features have been removed. <10kb when all rolls emptied :)
 ]]--
 
 local rollArray
