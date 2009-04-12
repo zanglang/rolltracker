@@ -8,6 +8,7 @@
 ## X-Category: Miscellaneous
 ## X-Feedback: http://www.wowace.com/projects/rolltracker/
 ## DefaultState: enabled
+## SavedVariables: RollTrackerDB
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: true
 ## OptionalDeps:

@@ -8,10 +8,32 @@
 
 local rollArray
 local rollNames
+local db = RollTrackerDB
 
 -- hard-coded configs
-local ClearWhenClosed = true 
+local ClearWhenClosed = true
 
+-- Basic localizations
+local locales = {
+	deDE = {
+		["([^%s]+) rolls (%d+) %((%d+)%-(%d+)%)$"] = "([^%s]+) w\195\188rfelt. Ergebnis: (%d+) %((%d+)%-(%d+)%)$",
+	},
+	ruRU = {
+		["([^%s]+) rolls (%d+) %((%d+)%-(%d+)%)$"] = "([^%s]+) выбрасывает (%d+) %((%d+)%-(%d+)%)$",
+		["%d Roll(s)"] = "%d броска(ов)"
+	},
+}
+local L = locales[GetLocale()] or {}
+setmetatable(L, {
+	-- looks a little messy, may be worth migrating to AceLocale when this list gets bigger
+	__index = {
+		["([^%s]+) rolls (%d+) %((%d+)%-(%d+)%)$"] = "([^%s]+) rolls (%d+) %((%d+)%-(%d+)%)$",
+		["%d Roll(s)"] = "%d Roll(s)",
+		["All rolls have been cleared."] = "All rolls have been cleared."
+	},
+})
+
+-- Init
 function RollTracker_OnLoad()
 	rollArray = {}
 	rollNames = {}
@@ -31,7 +53,7 @@ end
 
 -- Event handler
 function RollTracker_CHAT_MSG_SYSTEM(msg)
-	for name, roll, low, high in string.gmatch(arg1, "([^%s]+) rolls (%d+) %((%d+)%-(%d+)%)$") do
+	for name, roll, low, high in string.gmatch(arg1, L["([^%s]+) rolls (%d+) %((%d+)%-(%d+)%)$"]) do
 		-- check for rerolls. >1 if rolled before
 		rollNames[name] = rollNames[name] and rollNames[name] + 1 or 1
 		table.insert(rollArray, {
@@ -66,13 +88,13 @@ function RollTracker_UpdateList()
 				roll.Count > 1 and format(" [%d]", roll.Count) or "") .. rollText
 	end
 	RollTrackerRollText:SetText(rollText)
-	RollTrackerFrameStatusText:SetText(string.format("%d Roll(s)", table.getn(rollArray)))
+	RollTrackerFrameStatusText:SetText(string.format(L["%d Roll(s)"], table.getn(rollArray)))
 end
 
 function RollTracker_ClearRolls()
 	rollArray = {}
 	rollNames = {}
-	DEFAULT_CHAT_FRAME:AddMessage("All rolls have been cleared.")
+	DEFAULT_CHAT_FRAME:AddMessage(L["All rolls have been cleared."])
 	RollTracker_UpdateList()
 end
 
