@@ -8,7 +8,6 @@
 
 local rollArray
 local rollNames
-local db = RollTrackerDB
 
 -- hard-coded configs
 local ClearWhenClosed = true
@@ -37,8 +36,19 @@ setmetatable(L, {
 function RollTracker_OnLoad()
 	rollArray = {}
 	rollNames = {}
-	this:RegisterEvent("CHAT_MSG_SYSTEM")
 	
+	-- GUI
+	if not RollTrackerDB then RollTrackerDB = {} end -- fresh DB
+	local x, y, w, h = RollTrackerDB.X, RollTrackerDB.Y, RollTrackerDB.Width, RollTrackerDB.Height
+	if not x or not y or not w or not h then
+		RollTracker_SaveAnchors()
+	else
+		this:ClearAllPoints()
+		this:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x, y)
+		this:SetWidth(w)
+		this:SetHeight(h)
+	end
+		
 	-- slash command
 	SLASH_ROLLTRACKER1 = "/rolltracker";
 	SLASH_ROLLTRACKER2 = "/rt";
@@ -96,6 +106,14 @@ function RollTracker_ClearRolls()
 	rollNames = {}
 	DEFAULT_CHAT_FRAME:AddMessage(L["All rolls have been cleared."])
 	RollTracker_UpdateList()
+end
+
+-- GUI
+function RollTracker_SaveAnchors()
+	RollTrackerDB.X = RollTrackerFrame:GetLeft()
+	RollTrackerDB.Y = RollTrackerFrame:GetTop()
+	RollTrackerDB.Width = RollTrackerFrame:GetWidth()
+	RollTrackerDB.Height = RollTrackerFrame:GetHeight()
 end
 
 function RollTracker_ShowWindow()
