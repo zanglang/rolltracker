@@ -2,6 +2,7 @@
 	RollTracker Lite v0.2 - by Jerry Chong. <zanglang@gmail.com>
 	Originally written by Coth of Gilneas and Morodan of Khadgar.
 	
+	0.3 - Testing localization, save anchors and size
 	0.2 - New project name. Auto clear when closed
 	0.1 - Initial test release. The code is very loosely based on the old addon, most of the less-used features have been removed. <10kb when all rolls emptied :)
 ]]--
