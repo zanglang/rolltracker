@@ -15,19 +15,15 @@ local ClearWhenClosed = true
 
 -- Basic localizations
 local locales = {
-	deDE = {
-		["([^%s]+) rolls (%d+) %((%d+)%-(%d+)%)$"] = "([^%s]+) w\195\188rfelt. Ergebnis: (%d+) %((%d+)%-(%d+)%)$",
-	},
 	ruRU = {
-		["([^%s]+) rolls (%d+) %((%d+)%-(%d+)%)$"] = "([^%s]+) выбрасывает (%d+) %((%d+)%-(%d+)%)$",
-		["%d Roll(s)"] = "%d броска(ов)"
+		["%d Roll(s)"] = "%d броска(ов)",
+		["All rolls have been cleared."] = "Все броски костей очищены."
 	},
 }
 local L = locales[GetLocale()] or {}
 setmetatable(L, {
 	-- looks a little messy, may be worth migrating to AceLocale when this list gets bigger
 	__index = {
-		["([^%s]+) rolls (%d+) %((%d+)%-(%d+)%)$"] = "([^%s]+) rolls (%d+) %((%d+)%-(%d+)%)$",
 		["%d Roll(s)"] = "%d Roll(s)",
 		["All rolls have been cleared."] = "All rolls have been cleared."
 	},
@@ -64,7 +60,9 @@ end
 
 -- Event handler
 function RollTracker_CHAT_MSG_SYSTEM(msg)
-	for name, roll, low, high in string.gmatch(arg1, L["([^%s]+) rolls (%d+) %((%d+)%-(%d+)%)$"]) do
+	-- using RANDOM_ROLL_RESULT from GlobalStrings.lua
+	local pattern = format(RANDOM_ROLL_RESULT, "(.+)", "(%d+)", "(%d+)", "(%d+)")
+	for name, roll, low, high in string.gmatch(arg1, pattern) do
 		-- check for rerolls. >1 if rolled before
 		rollNames[name] = rollNames[name] and rollNames[name] + 1 or 1
 		table.insert(rollArray, {
@@ -80,12 +78,14 @@ function RollTracker_CHAT_MSG_SYSTEM(msg)
 end
 
 -- Sort and format the list
+local function RollTracker_Sort(a, b)
+	return a.Roll < b.Roll
+end
+
 function RollTracker_UpdateList()
 	local rollText = ""
 	
-	table.sort(rollArray, function (a, b)
-		return a.Roll < b.Roll
-	end)
+	table.sort(rollArray, RollTracker_Sort)
 	
 	-- format and print rolls, check for ties
 	for i, roll in pairs(rollArray) do
