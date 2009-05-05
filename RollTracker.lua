@@ -61,7 +61,11 @@ end
 -- Event handler
 function RollTracker_CHAT_MSG_SYSTEM(msg)
 	-- using RANDOM_ROLL_RESULT from GlobalStrings.lua
-	local pattern = format(RANDOM_ROLL_RESULT, "(.+)", "(%d+)", "(%d+)", "(%d+)")
+	-- %s rolls %d (%d-%d) to (.+) rolls (%d+) %((%d+)-(%d+)%)
+	local pattern = string.gsub(RANDOM_ROLL_RESULT, "[%(%)-]", "%%%1")
+	pattern = string.gsub(pattern, "%%s", "(.+)")
+	pattern = string.gsub(pattern, "%%d", "%(%%d+%)")
+	
 	for name, roll, low, high in string.gmatch(arg1, pattern) do
 		-- check for rerolls. >1 if rolled before
 		rollNames[name] = rollNames[name] and rollNames[name] + 1 or 1
