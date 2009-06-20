@@ -15,9 +15,17 @@ local ClearWhenClosed = true
 
 -- Basic localizations
 local locales = {
+	deDE = {
+		["All rolls have been cleared."] = "Alle gewürfelten Zahlen gelöscht.",
+		["%d Roll(s)"] = "%d Zahlen gewürfelt",
+	},
+	esES = {
+		["All rolls have been cleared."] = "Todas las tiradas han sido borradas.",
+		["%d Roll(s)"] = "%d Tiradas",
+	},
 	ruRU = {
+		["All rolls have been cleared."] = "Все броски костей очищены.",
 		["%d Roll(s)"] = "%d броска(ов)",
-		["All rolls have been cleared."] = "Все броски костей очищены."
 	},
 }
 local L = locales[GetLocale()] or {}
@@ -25,7 +33,7 @@ setmetatable(L, {
 	-- looks a little messy, may be worth migrating to AceLocale when this list gets bigger
 	__index = {
 		["%d Roll(s)"] = "%d Roll(s)",
-		["All rolls have been cleared."] = "All rolls have been cleared."
+		["All rolls have been cleared."] = "All rolls have been cleared.",
 	},
 })
 
