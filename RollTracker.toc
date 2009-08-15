@@ -1,4 +1,4 @@
-## Interface: 30100
+## Interface: 30200
 ## Title: RollTracker Lite
 ## Notes: Keeps tracks of /rolls.
 ## Version: 0.3.1
