@@ -27,6 +27,14 @@ local locales = {
 		["All rolls have been cleared."] = "Все броски костей очищены.",
 		["%d Roll(s)"] = "%d броска(ов)",
 	},
+	zhCN = {
+		["All rolls have been cleared."] = "所有投掷已被清除。",
+		["%d Roll(s)"] = "%d个投掷",
+	},
+	zhTW = {
+		["All rolls have been cleared."] = "所有投擲已被清除。",
+		["%d Roll(s)"] = "%d個投擲",
+	},
 }
 local L = locales[GetLocale()] or {}
 setmetatable(L, {
