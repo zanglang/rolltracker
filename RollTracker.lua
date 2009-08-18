@@ -28,12 +28,12 @@ local locales = {
 		["%d Roll(s)"] = "%d броска(ов)",
 	},
 	zhCN = {
-		["All rolls have been cleared."] = "所有投掷已被清除。",
-		["%d Roll(s)"] = "%d个投掷",
+		["All rolls have been cleared."] = "所有骰子已被清除。",
+		["%d Roll(s)"] = "%d个骰子",
 	},
 	zhTW = {
-		["All rolls have been cleared."] = "所有投擲已被清除。",
-		["%d Roll(s)"] = "%d個投擲",
+		["All rolls have been cleared."] = "所有骰子已被清除。",
+		["%d Roll(s)"] = "%d個骰子",
 	},
 }
 local L = locales[GetLocale()] or {}
