@@ -1,7 +1,8 @@
 --[[
-	RollTracker Lite v0.2 - by Jerry Chong. <zanglang@gmail.com>
+	RollTracker Lite v0.3.x - by Jerry Chong. <zanglang@gmail.com>
 	Originally written by Coth of Gilneas and Morodan of Khadgar.
 	
+	0.3.x - Mostly localizations and bug fixes
 	0.3 - Testing localization, save anchors and size
 	0.2 - New project name. Auto clear when closed
 	0.1 - Initial test release. The code is very loosely based on the old addon, most of the less-used features have been removed. <10kb when all rolls emptied :)
@@ -22,6 +23,10 @@ local locales = {
 	esES = {
 		["All rolls have been cleared."] = "Todas las tiradas han sido borradas.",
 		["%d Roll(s)"] = "%d Tiradas",
+	},
+	frFR = {
+		["All rolls have been cleared."] = "Tous les jets ont été effacés.",
+		["%d Roll(s)"] = "%d Jet(s)",
 	},
 	ruRU = {
 		["All rolls have been cleared."] = "Все броски костей очищены.",
@@ -44,6 +49,9 @@ setmetatable(L, {
 		["All rolls have been cleared."] = "All rolls have been cleared.",
 	},
 })
+
+-- German language patch
+if GetLocale() == 'deDE' then RANDOM_ROLL_RESULT = "(.+) w\195\188rfelt. Ergebnis: %d (%d-%d)" end
 
 -- Init
 function RollTracker_OnLoad()
@@ -78,6 +86,9 @@ end
 function RollTracker_CHAT_MSG_SYSTEM(msg)
 	-- using RANDOM_ROLL_RESULT from GlobalStrings.lua
 	-- %s rolls %d (%d-%d) to (.+) rolls (%d+) %((%d+)-(%d+)%)
+	-- "%1$s würfelt. Ergebnis: %2$d (%3$d-%4$d)"
+	-- "([^%s]+) w\195\188rfelt. Ergebnis: (%d+) %((%d+)%-(%d+)%)$"
+	-- "xxx würfelt. Ergebnis: 123 (1-100)"
 	local pattern = string.gsub(RANDOM_ROLL_RESULT, "[%(%)-]", "%%%1")
 	pattern = string.gsub(pattern, "%%s", "(.+)")
 	pattern = string.gsub(pattern, "%%d", "%(%%d+%)")
