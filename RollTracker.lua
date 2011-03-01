@@ -1,7 +1,8 @@
 --[[
-	RollTracker Lite v0.3.x - by Jerry Chong. <zanglang@gmail.com>
+	RollTracker Lite v0.4 - by Jerry Chong. <zanglang@gmail.com>
 	Originally written by Coth of Gilneas and Morodan of Khadgar.
 	
+	0.4 - Fix for Cataclysm
 	0.3.x - Mostly localizations and bug fixes
 	0.3 - Testing localization, save anchors and size
 	0.2 - New project name. Auto clear when closed
@@ -17,8 +18,8 @@ local ClearWhenClosed = true
 -- Basic localizations
 local locales = {
 	deDE = {
-		["All rolls have been cleared."] = "Alle gewürfelten Zahlen gelöscht.",
-		["%d Roll(s)"] = "%d Zahlen gewürfelt",
+		["All rolls have been cleared."] = "Alle Würfelergebnisse gelöscht.",
+		["%d Roll(s)"] = "%d Würfelergebnisse",
 	},
 	esES = {
 		["All rolls have been cleared."] = "Todas las tiradas han sido borradas.",
@@ -37,8 +38,8 @@ local locales = {
 		["%d Roll(s)"] = "%d个骰子",
 	},
 	zhTW = {
-		["All rolls have been cleared."] = "所有骰子已被清除。",
-		["%d Roll(s)"] = "%d個骰子",
+		["All rolls have been cleared."] = "所有擲骰紀錄已被清除。",
+		["%d Roll(s)"] = "共計 %d 人擲骰",
 	},
 }
 local L = locales[GetLocale()] or {}
@@ -51,7 +52,7 @@ setmetatable(L, {
 })
 
 -- German language patch
-if GetLocale() == 'deDE' then RANDOM_ROLL_RESULT = "(.+) w\195\188rfelt. Ergebnis: %d (%d-%d)" end
+if GetLocale() == 'deDE' then RANDOM_ROLL_RESULT = "%s w\195\188rfelt. Ergebnis: %d (%d-%d)" end
 
 -- Init
 function RollTracker_OnLoad()
@@ -64,12 +65,12 @@ function RollTracker_OnLoad()
 	if not x or not y or not w or not h then
 		RollTracker_SaveAnchors()
 	else
-		this:ClearAllPoints()
-		this:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x, y)
-		this:SetWidth(w)
-		this:SetHeight(h)
+		self:ClearAllPoints()
+		self:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x, y)
+		self:SetWidth(w)
+		self:SetHeight(h)
 	end
-		
+	
 	-- slash command
 	SLASH_ROLLTRACKER1 = "/rolltracker";
 	SLASH_ROLLTRACKER2 = "/rt";
@@ -93,7 +94,7 @@ function RollTracker_CHAT_MSG_SYSTEM(msg)
 	pattern = string.gsub(pattern, "%%s", "(.+)")
 	pattern = string.gsub(pattern, "%%d", "%(%%d+%)")
 	
-	for name, roll, low, high in string.gmatch(arg1, pattern) do
+	for name, roll, low, high in string.gmatch(msg, pattern) do
 		-- check for rerolls. >1 if rolled before
 		rollNames[name] = rollNames[name] and rollNames[name] + 1 or 1
 		table.insert(rollArray, {

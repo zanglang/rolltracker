@@ -164,24 +164,25 @@
 		
 		<Scripts>
 			<OnLoad>
-				this:SetMinResize(130,150)
-				this:RegisterForDrag("LeftButton")
-				this:RegisterEvent("ADDON_LOADED")
-				this:RegisterEvent("CHAT_MSG_SYSTEM")
+				self:SetMinResize(130,150)
+				self:RegisterForDrag("LeftButton")
+				self:RegisterEvent("ADDON_LOADED")
+				self:RegisterEvent("CHAT_MSG_SYSTEM")
 			</OnLoad>
 			<OnEvent>
-				if  (event == "ADDON_LOADED" and arg1 == "RollTracker") then
-					this:UnregisterEvent("ADDON_LOADED")
+				local arg1 = ...
+				if (event == "ADDON_LOADED" and arg1 == "RollTracker") then
+					self:UnregisterEvent("ADDON_LOADED")
 					RollTracker_OnLoad()
 				elseif (event == "CHAT_MSG_SYSTEM") then
-					RollTracker_CHAT_MSG_SYSTEM();
+					RollTracker_CHAT_MSG_SYSTEM(arg1);
 				end
 			</OnEvent>
 			<OnDragStart>
-				this:StartMoving()
+				self:StartMoving()
 			</OnDragStart>
 			<OnDragStop>
-				this:StopMovingOrSizing();
+				self:StopMovingOrSizing();
 				RollTracker_SaveAnchors()
 			</OnDragStop>
 		</Scripts>
