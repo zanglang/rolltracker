@@ -173,7 +173,7 @@
 				local arg1 = ...
 				if (event == "ADDON_LOADED" and arg1 == "RollTracker") then
 					self:UnregisterEvent("ADDON_LOADED")
-					RollTracker_OnLoad()
+					RollTracker_OnLoad(self)
 				elseif (event == "CHAT_MSG_SYSTEM") then
 					RollTracker_CHAT_MSG_SYSTEM(arg1);
 				end

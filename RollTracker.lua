@@ -53,9 +53,13 @@ setmetatable(L, {
 
 -- German language patch
 if GetLocale() == 'deDE' then RANDOM_ROLL_RESULT = "%s w\195\188rfelt. Ergebnis: %d (%d-%d)" end
+-- Cache regenerated regex pattern
+local pattern = string.gsub(RANDOM_ROLL_RESULT, "[%(%)-]", "%%%1")
+pattern = string.gsub(pattern, "%%s", "(.+)")
+pattern = string.gsub(pattern, "%%d", "%(%%d+%)")
 
 -- Init
-function RollTracker_OnLoad()
+function RollTracker_OnLoad(self)
 	rollArray = {}
 	rollNames = {}
 	
@@ -90,10 +94,6 @@ function RollTracker_CHAT_MSG_SYSTEM(msg)
 	-- "%1$s würfelt. Ergebnis: %2$d (%3$d-%4$d)"
 	-- "([^%s]+) w\195\188rfelt. Ergebnis: (%d+) %((%d+)%-(%d+)%)$"
 	-- "xxx würfelt. Ergebnis: 123 (1-100)"
-	local pattern = string.gsub(RANDOM_ROLL_RESULT, "[%(%)-]", "%%%1")
-	pattern = string.gsub(pattern, "%%s", "(.+)")
-	pattern = string.gsub(pattern, "%%d", "%(%%d+%)")
-	
 	for name, roll, low, high in string.gmatch(msg, pattern) do
 		-- check for rerolls. >1 if rolled before
 		rollNames[name] = rollNames[name] and rollNames[name] + 1 or 1
@@ -116,7 +116,6 @@ end
 
 function RollTracker_UpdateList()
 	local rollText = ""
-	
 	table.sort(rollArray, RollTracker_Sort)
 	
 	-- format and print rolls, check for ties
